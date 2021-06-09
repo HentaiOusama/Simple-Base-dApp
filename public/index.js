@@ -1,4 +1,4 @@
-const socket = io.connect('http://localhost:4000');
+const socket = io.connect('https://blockchain-reader-website.herokuapp.com/');
 
 if (typeof window.ethereum !== 'undefined') {
     console.log('MetaMask is installed!');
@@ -11,7 +11,7 @@ let ethereum, web3, account, networkId;
 ethereum = window.ethereum;
 web3 = new Web3(ethereum);
 
-ethereum.on('chainChanged', (chainId) => {
+ethereum.on('chainChanged', () => {
     // Handle the new chain.
     // Correctly handling chain changes can be complicated.
     // We recommend reloading the page unless you have good reason not to.
