@@ -20,6 +20,7 @@
             align-self: center;
             border: 2px solid white;
             border-radius: 5px;
+            box-sizing: border-box;
         }
 
         div.container {
@@ -31,12 +32,37 @@
             border: 4px solid lightgray;
             background: whitesmoke;
             margin: 2% 0.5%;
+            overflow: hidden;
         }
 
         div.header {
             background: #f54b4b;
             margin: 3px;
             border-color: grey;
+        }
+
+        div.elementHolder {
+            font-size: 20px;
+            border: 2px solid #2b2727;
+            margin: 9px 4px;
+            padding: 6px;
+        }
+
+        input {
+            margin-left: 2px;
+            margin-right: 2px;
+            text-align: center;
+            border: 1px solid black;
+            border-radius: 8px;
+            height: 24px;
+        }
+
+        input:focus {
+            margin-left: 2px;
+            margin-right: 2px;
+            text-align: center;
+            border: 1px solid black;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -47,24 +73,83 @@
     width: 100%;
     height: 100%;">
     <div style="border: none;">
-        <h1 style="font-size: 50px">This is Metamask Handler</h1>
+        <h1 style="font-size: 50px">『 This is a blockchain communicator 』</h1>
     </div>
     <hr>
     <div style="
     width: 100%;
-    height: 88%;" class="container">
+    height: 85%;" class="container">
         <div style="
             width: 19%;
             height: 98%;" class="holder">
             <div class="header">
                 <h4>Input Information</h4>
             </div>
+            <div class="elementHolder">
+                <label>
+                    Contract Address
+                    <input style="width: 99%;" placeholder="Contract Address" id="Contract Address">
+                </label>
+                <br>
+            </div>
+            <div class="elementHolder">
+                <label>
+                    From Address
+                    <input style="width: 99%;" placeholder="from" id="From Address">
+                </label>
+                <br>
+            </div>
+            <div class="elementHolder">
+                <label>
+                    To Address
+                    <input style="width: 99%;" placeholder="to" id="To Address">
+                </label>
+                <br>
+            </div>
+            <div class="elementHolder">
+                <label>
+                    Amount
+                    <input style="width: 99%;" placeholder="amount" id="Amount">
+                </label>
+                <button style="
+                    margin-top: 5px;
+                    margin-left: 3px;
+                    margin-right: 3px;">-</button>
+                <button style="
+                    margin-top: 5px;
+                    margin-left: 3px;
+                    margin-right: 3px;">+</button>
+                <br>
+            </div>
         </div>
         <div style="
             width: 59%;
             height: 98%;" class="holder">
             <div class="header">
-                <h4>Miscellaneous Information</h4>
+                <h4>Available Actions</h4>
+            </div>
+            <div class="elementHolder">
+                <label>
+                    General Actions<br>
+                    <button>Owner</button>
+                    <button>Transfer Ownership</button>
+                </label>
+                <br>
+            </div>
+            <div class="elementHolder">
+                <label>
+                    ERC20 Actions<br>
+                    <button>Name</button>
+                    <button>Symbol</button>
+                    <button>Decimals</button>
+                    <button>Total Supply</button>
+                    <button>BalanceOf</button>
+                    <button>Allowance</button>
+                    <button>Approve</button>
+                    <button>Transfer</button>
+                    <button>TransferFrom</button>
+                </label>
+                <br>
             </div>
         </div>
         <div style="
