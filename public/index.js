@@ -6,7 +6,7 @@ if (typeof window.ethereum !== 'undefined') {
     console.log('MetaMask is not installed!');
 }
 
-let  ethereum, web3, account, networkId;
+let ethereum, web3, account, networkId;
 
 ethereum = window.ethereum;
 web3 = new Web3(ethereum);
@@ -23,7 +23,7 @@ web3.eth.getAccounts().then((acc) => {
     console.log("Connected Account : " + account);
 });
 
-ethereum.request({ method: 'eth_requestAccounts' });
+ethereum.request({method: 'eth_requestAccounts'});
 
 web3.eth.net.getId().then((id) => {
     networkId = id;
@@ -31,6 +31,6 @@ web3.eth.net.getId().then((id) => {
 });
 
 ethereum.on('accountsChanged', (acc) => {
-   account = acc[0];
+    account = acc[0];
     console.log("Account Changed to : " + account);
 });
