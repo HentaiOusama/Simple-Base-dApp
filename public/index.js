@@ -56,56 +56,65 @@ ethereum.on('accountsChanged', (acc) => {
     console.log("Account Changed to : " + userAccount);
 });
 
-async function callBalanceOf() {
-    const erc20Token = new web3.eth.Contract(erc20ABI, contractAddressInput.value, {
-        from: fromAddressInput.value,
-        gasPrice: '0'
-    });
+async function getBalanceOf() {
+    const erc20Token = new web3.eth.Contract(erc20ABI, web3.utils.toChecksumAddress(contractAddressInput.value));
 
     outputBox.innerHTML = await erc20Token.methods.balanceOf(queryAddressInput.value).call();
 }
 
 async function getTotalSupply() {
-    const erc20Token = new web3.eth.Contract(erc20ABI, contractAddressInput.value, {
-        from: fromAddressInput.value,
-        gasPrice: '0'
-    });
+    const erc20Token = new web3.eth.Contract(erc20ABI, web3.utils.toChecksumAddress(contractAddressInput.value));
 
     outputBox.innerHTML = await erc20Token.methods.totalSupply().call();
 }
 
 async function getTokenName() {
-    const erc20Token = new web3.eth.Contract(erc20ABI, contractAddressInput.value, {
-        from: fromAddressInput.value,
-        gasPrice: '0'
-    });
+    const erc20Token = new web3.eth.Contract(erc20ABI, web3.utils.toChecksumAddress(contractAddressInput.value));
 
     outputBox.innerHTML = await erc20Token.methods.name().call();
 }
 
 async function getTokenSymbol() {
-    const erc20Token = new web3.eth.Contract(erc20ABI, contractAddressInput.value, {
-        from: fromAddressInput.value,
-        gasPrice: '0'
-    });
+    const erc20Token = new web3.eth.Contract(erc20ABI, web3.utils.toChecksumAddress(contractAddressInput.value));
 
     outputBox.innerHTML = await erc20Token.methods.symbol().call();
 }
 
 async function getTokenDecimals() {
-    const erc20Token = new web3.eth.Contract(erc20ABI, contractAddressInput.value, {
-        from: fromAddressInput.value,
-        gasPrice: '0'
-    });
+    const erc20Token = new web3.eth.Contract(erc20ABI, web3.utils.toChecksumAddress(contractAddressInput.value));
 
     outputBox.innerHTML = await erc20Token.methods.decimals().call();
 }
 
 async function getTokenAllowance() {
-    const erc20Token = new web3.eth.Contract(erc20ABI, contractAddressInput.value, {
-        from: fromAddressInput.value,
-        gasPrice: '0'
-    });
+    const erc20Token = new web3.eth.Contract(erc20ABI, web3.utils.toChecksumAddress(contractAddressInput.value));
 
     outputBox.innerHTML = await erc20Token.methods.allowance(fromAddressInput.value, spenderAddressInput.value).call();
+}
+
+async function sendTransfer() {
+    const erc20Token = new web3.eth.Contract(erc20ABI, web3.utils.toChecksumAddress(contractAddressInput.value), {
+        from: fromAddressInput.value,
+        gasPrice: gasPriceInput.value + '000000000'
+    });
+
+    outputBox.innerHTML = JSON.stringify(await erc20Token.methods.transfer(toAddressInput.value, amountInput.value).send());
+}
+
+async function sendApprove() {
+    const erc20Token = new web3.eth.Contract(erc20ABI, web3.utils.toChecksumAddress(contractAddressInput.value), {
+        from: fromAddressInput.value,
+        gasPrice: gasPriceInput.value + '000000000'
+    });
+
+    outputBox.innerHTML = JSON.stringify(await erc20Token.methods.approve(spenderAddressInput.value, amountInput.value).send());
+}
+
+async function sendTransferFrom() {
+    const erc20Token = new web3.eth.Contract(erc20ABI, web3.utils.toChecksumAddress(contractAddressInput.value), {
+        from: fromAddressInput.value,
+        gasPrice: gasPriceInput.value + '000000000'
+    });
+
+    outputBox.innerHTML = JSON.stringify(await erc20Token.methods.transferFrom(fromAddressInput.value, toAddressInput.value, amountInput.value).send());
 }
