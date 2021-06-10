@@ -1,7 +1,6 @@
 const express = require('express');
 const http = require('http');
 const {Server} = require('socket.io');
-const web3 = require('web3');
 
 const app = express();
 const server = http.createServer(app);

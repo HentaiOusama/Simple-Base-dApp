@@ -68,6 +68,28 @@
         button {
             border: 1px solid black;
             border-radius: 7px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+            background-color: #4e9341;
+            color: #FFFFFF;
+            text-decoration: none;
+            box-shadow: 7px 6px 28px 1px rgba(0, 0, 0, 0.35);
+            outline: none;
+        }
+
+        button:active {
+            transform: scale(0.98);
+            box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.10);
+        }
+
+        textarea {
+            margin-left: 2px;
+            margin-right: 2px;
+            text-align: center;
+            border: 1px solid black;
+            border-radius: 8px;
+            resize: none;
         }
     </style>
 </head>
@@ -93,21 +115,21 @@
             <div class="elementHolder">
                 <label>
                     Contract Address
-                    <input style="width: 99%;" placeholder="Contract Address" id="Contract Address" autocomplete = "nope">
+                    <input style="width: 99%;" placeholder="Contract Address" id="Contract_Address" autocomplete = "nope">
                 </label>
                 <br>
             </div>
             <div class="elementHolder">
                 <label>
                     From Address
-                    <input style="width: 99%;" placeholder="from" id="From Address" autocomplete = "nope">
+                    <input style="width: 99%;" placeholder="from" id="From_Address" autocomplete = "nope">
                 </label>
                 <br>
             </div>
             <div class="elementHolder">
                 <label>
                     To Address
-                    <input style="width: 99%;" placeholder="to" id="To Address" autocomplete = "nope">
+                    <input style="width: 99%;" placeholder="to" id="To_Address" autocomplete = "nope">
                 </label>
                 <br>
             </div>
@@ -126,6 +148,27 @@
                     margin-right: 3px;">+</button>
                 <br>
             </div>
+            <div class="elementHolder">
+                <label>
+                    Gas Price
+                    <input style="width: 99%;" placeholder="gas price (in Gwei)" id="Gas_Price" autocomplete = "nope">
+                </label>
+                <br>
+            </div>
+            <div class="elementHolder">
+                <label>
+                    Spender Address
+                    <input style="width: 99%;" placeholder="spender" id="Spender_Address" autocomplete = "nope">
+                </label>
+                <br>
+            </div>
+            <div class="elementHolder">
+                <label>
+                    Query Address
+                    <input style="width: 99%;" placeholder="query address" id="Query_Address" autocomplete = "nope">
+                </label>
+                <br>
+            </div>
         </div>
         <div style="
             width: 59%;
@@ -136,7 +179,7 @@
             <div class="elementHolder">
                 <label>
                     General Actions<br>
-                    <button>Owner</button>
+                    <button onclick="">Owner</button>
                     <button>Transfer Ownership</button>
                 </label>
                 <br>
@@ -144,12 +187,12 @@
             <div class="elementHolder">
                 <label>
                     ERC20 Actions<br>
-                    <button>Name</button>
-                    <button>Symbol</button>
-                    <button>Decimals</button>
-                    <button>Total Supply</button>
-                    <button>BalanceOf</button>
-                    <button>Allowance</button>
+                    <button onclick="getTokenName()">Name</button>
+                    <button onclick="getTokenSymbol()">Symbol</button>
+                    <button onclick="getTokenDecimals()">Decimals</button>
+                    <button onclick="getTotalSupply()">Total Supply</button>
+                    <button onclick="callBalanceOf()">BalanceOf</button>
+                    <button onclick="getTokenAllowance()">Allowance</button>
                     <button>Approve</button>
                     <button>Transfer</button>
                     <button>TransferFrom</button>
@@ -162,6 +205,15 @@
             height: 98%;" class="holder">
             <div class="header">
                 <h4>Output Information</h4>
+            </div>
+            <div class="elementHolder">
+                <label>
+                    Execution Output
+                    <textarea style="
+                        height: 100px;
+                        width: 99%;" placeholder="Result" id="Output_Box" disabled></textarea>
+                </label>
+                <br>
             </div>
         </div>
     </div>
