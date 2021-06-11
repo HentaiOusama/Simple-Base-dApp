@@ -1,4 +1,4 @@
-const socket = io.connect(window.href);
+const socket = io.connect(window.location.origin);
 
 if (typeof window.ethereum !== 'undefined') {
     console.log('MetaMask is installed!');
