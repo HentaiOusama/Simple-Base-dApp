@@ -1,4 +1,4 @@
-const socket = io.connect('https://blockchain-reader-website.herokuapp.com/');
+const socket = io.connect(window.href);
 
 if (typeof window.ethereum !== 'undefined') {
     console.log('MetaMask is installed!');
@@ -119,12 +119,12 @@ async function sendTransferFrom() {
     outputBox.innerHTML = JSON.stringify(await erc20Token.methods.transferFrom(fromAddressInput.value, toAddressInput.value, amountInput.value).send());
 }
 
-async function createSignatureRequest() {
+function createSignatureRequest() {
     socket.emit('Get Signature Request URL', {
         address: fromAddressInput.value
     });
 }
 
 socket.on('setOutput', (outputText) => {
-    setOutput(outputText);
+    setOutput(outputText.outputText);
 });

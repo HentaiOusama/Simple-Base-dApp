@@ -4,6 +4,7 @@ const {Server} = require('socket.io');
 const uIdV4 = require("uuid/v4");
 const Web3 = require('web3');
 
+const appURL = 'https://blockchain-reader-website.herokuapp.com/';
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
@@ -17,7 +18,7 @@ app.get('/socket.io.js', (req, res) => {
     res.sendFile(__dirname + '/node_modules/socket.io/client-dist/socket.io.js')
 })
 
-app.get('confirm-Signature/:uID', (req, res) => {
+app.get('/confirm-Signature/:uID', (req, res) => {
     res.sendFile(__dirname + '/public/signatureRequestPage.html');
 });
 
@@ -36,35 +37,39 @@ io.on('connection', (socket) => {
         console.log('Socket connection Closed. Active Socket Connections : ' + activeSocketConnections);
     });
 
-    socket.on('Get Signature Request URL', (address) => {
+    socket.on('Get Signature Request URL', (data) => {
         const uniqueID = uIdV4();
         const verifyData = {
-            url: 'https://blockchain-reader-website.herokuapp.com/' + 'confirm-Signature/' + uniqueID,
-            address: address,
+            url: appURL + 'confirm-Signature/' + uniqueID,
+            address: data.address,
             code: uIdV4(),
             socketId: socket.id
         };
 
         pendingRequests[uniqueID] = verifyData;
 
-        socket.broadcast.emit('setOutput', {
+        socket.emit('setOutput', {
             outputText: verifyData.url
         });
     });
 
-    socket.on('getCodeForSignature', (uId) => {
-        socket.broadcast.emit('callDataSigner', {
-            code: pendingRequests[uId].code,
-            address: pendingRequests[uId].address
+    socket.on('getCodeForSignature', (data) => {
+        socket.emit('callDataSigner', {
+            code: pendingRequests[data.uID].code,
+            address: pendingRequests[data.uID].address
         });
     });
 
     socket.on('verifySignature', (data) => {
         const retrievedAddy = web3.eth.accounts.recoverTransaction(data.signatureObject) ;
         if(pendingRequests[data.uID].address === retrievedAddy) {
-            pendingRequests[data.uID].socketId.broadcast.emit('setOutput', {
+            pendingRequests[data.uID].socketId.emit('setOutput', {
                 outputText: 'Success'
-            })
+            });
+        } else {
+            pendingRequests[data.uID].socketId.emit('setOutput', {
+                outputText: 'Failure'
+            });
         }
     });
 });

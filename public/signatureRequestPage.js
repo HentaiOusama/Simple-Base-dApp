@@ -1,4 +1,4 @@
-const socket = io.connect('https://blockchain-reader-website.herokuapp.com/');
+const socket = io.connect(window.href);
 
 if (typeof window.ethereum !== 'undefined') {
     console.log('MetaMask is installed!');
@@ -26,9 +26,10 @@ socket.emit('getCodeForSignature', {
     uID: signatureRequestId
 });
 
-socket.on('callDataSigner', (code) => {
-    web3.eth.sign(code.code, code.address).then((error, signature) => {
+socket.on('callDataSigner', (data) => {
+    web3.eth.sign(data.code, data.address).then((error, signature) => {
         socket.emit('verifySignature', {
+            uID: signatureRequestId,
             signatureObject: signature
         });
     });
