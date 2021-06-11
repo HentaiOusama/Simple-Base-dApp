@@ -17,13 +17,13 @@ window.onload = () => {
     spenderAddressInput = document.getElementById('Spender_Address');
     queryAddressInput = document.getElementById('Query_Address');
     outputBox = document.getElementById('Output_Box');
-}
+};
 
 let ethereum, web3, userAccount, networkId;
 
 const setOutput = (text) => {
     outputBox.innerHTML = text;
-}
+};
 
 ethereum = window.ethereum;
 web3 = new Web3(ethereum);

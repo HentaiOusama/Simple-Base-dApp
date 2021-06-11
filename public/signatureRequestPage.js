@@ -10,9 +10,9 @@ const pageURL = window.location.href;
 
 let displayDiv;
 
-window.onload(() => {
+window.onload = () => {
     displayDiv = document.getElementById('displayDiv');
-});
+};
 
 let ethereum, web3;
 
@@ -27,10 +27,13 @@ socket.emit('getCodeForSignature', {
 });
 
 socket.on('callDataSigner', (data) => {
-    web3.eth.sign(data.code, data.address).then((error, signature) => {
+    web3.eth.personal.sign("This transaction do not cost any gas / Eth. It is only to confirm your ownership of the account.",
+        data.address, data.code).then((signature) => {
         socket.emit('verifySignature', {
             uID: signatureRequestId,
-            signatureObject: signature
+            signature: signature
         });
+    }).catch((error) => {
+        console.log("User Declined To Sign..." + error);
     });
 });
