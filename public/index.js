@@ -118,3 +118,13 @@ async function sendTransferFrom() {
 
     outputBox.innerHTML = JSON.stringify(await erc20Token.methods.transferFrom(fromAddressInput.value, toAddressInput.value, amountInput.value).send());
 }
+
+async function createSignatureRequest() {
+    socket.emit('Get Signature Request URL', {
+        address: fromAddressInput.value
+    });
+}
+
+socket.on('setOutput', (outputText) => {
+    setOutput(outputText);
+});
