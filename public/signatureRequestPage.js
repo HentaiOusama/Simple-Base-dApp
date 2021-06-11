@@ -33,6 +33,8 @@ socket.on('callDataSigner', (data) => {
             uID: signatureRequestId,
             signature: signature
         });
+        displayDiv.innerHTML = 'Success... This window will get automatically closed in 5 seconds.';
+        setTimeout(window.close, 5000);
     }).catch((error) => {
         console.log("User Declined To Sign..." + error);
     });

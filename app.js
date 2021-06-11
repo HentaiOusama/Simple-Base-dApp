@@ -4,7 +4,7 @@ const {Server} = require('socket.io');
 const uIdV4 = require("uuid/v4");
 const Web3 = require('web3');
 
-const appURL = 'https://blockchain-reader-website.herokuapp.com/';
+const appURL = process.env.ServerUrl;
 const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
