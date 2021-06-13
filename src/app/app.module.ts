@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
+import { LinkedIconMakerComponent } from './linked-icon-maker/linked-icon-maker.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LinkedIconMakerComponent
   ],
   imports: [
     BrowserModule
