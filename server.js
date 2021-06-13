@@ -18,11 +18,11 @@ app.use(express.static(_app_folder));
 
 // --- SERVE MODULES --- //
 app.get('*/web3.min.js', (req, res) => {
-  res.sendFile(__dirname + '/node_modules/web3/dist/web3.min.js');
+    res.sendFile(__dirname + '/node_modules/web3/dist/web3.min.js');
 });
 
 app.get('*/socket.io.js', (req, res) => {
-  res.sendFile(__dirname + '/node_modules/socket.io/client-dist/socket.io.js');
+    res.sendFile(__dirname + '/node_modules/socket.io/client-dist/socket.io.js');
 });
 
 
@@ -31,12 +31,12 @@ app.get('*.*', express.static(_app_folder, {maxAge: '1y'}));
 
 // ---- SERVE APPLICATION PATHS ---- //
 app.all('*', function (req, res) {
-  res.status(200).sendFile(`/`, {root: _app_folder});
+    res.status(200).sendFile(`/`, {root: _app_folder});
 });
 
 // ---- START UP THE NODE SERVER  ---- //
 server.listen(_port, () => {
-  console.log("Node Express server for " + app.name + " listening on http://localhost:" + _port);
+    console.log("Node Express server for " + app.name + " listening on http://localhost:" + _port);
 });
 
 
@@ -46,49 +46,49 @@ let activeSocketConnections = 0;
 let pendingRequests = [];
 
 io.on('connection', (socket) => {
-  activeSocketConnections++;
-  console.log('Socket connection made. Id : ' + socket.id + ", Active Socket Connections : " + activeSocketConnections);
+    activeSocketConnections++;
+    console.log('Socket connection made. Id : ' + socket.id + ", Active Socket Connections : " + activeSocketConnections);
 
-  socket.on('disconnect', () => {
-    activeSocketConnections--;
-    console.log('Socket connection Closed. Active Socket Connections : ' + activeSocketConnections);
-  });
-
-  socket.on('Get Signature Request URL', (data) => {
-    const uniqueID = uIdV4();
-    const verifyData = {
-      url: appURL + 'confirm-Signature/' + uniqueID,
-      address: data.address,
-      code: uIdV4(),
-      socketId: socket.id
-    };
-
-    pendingRequests[uniqueID] = verifyData;
-
-    socket.emit('setOutput', {
-      outputText: verifyData.url
+    socket.on('disconnect', () => {
+        activeSocketConnections--;
+        console.log('Socket connection Closed. Active Socket Connections : ' + activeSocketConnections);
     });
-  });
 
-  socket.on('getCodeForSignature', (data) => {
-    socket.emit('callDataSigner', {
-      code: pendingRequests[data.uID].code,
-      address: pendingRequests[data.uID].address
+    socket.on('Get Signature Request URL', (data) => {
+        const uniqueID = uIdV4();
+        const verifyData = {
+            url: appURL + 'confirm-Signature/' + uniqueID,
+            address: data.address,
+            code: uIdV4(),
+            socketId: socket.id
+        };
+
+        pendingRequests[uniqueID] = verifyData;
+
+        socket.emit('setOutput', {
+            outputText: verifyData.url
+        });
     });
-  });
 
-  socket.on('verifySignature', (data) => {
-    const pendingRequest = pendingRequests[data.uID];
-    const retrievedAddy = web3.eth.accounts.recover("This transaction do not cost any gas / Eth. It is only to confirm your ownership of the account.",
-      data.signature);
-    if(pendingRequest.address === retrievedAddy) {
-      io.to(pendingRequest.socketId).emit('setOutput', {
-        outputText: 'Success'
-      });
-    } else {
-      io.to(pendingRequest.socketId).emit('setOutput', {
-        outputText: 'Failure'
-      });
-    }
-  });
+    socket.on('getCodeForSignature', (data) => {
+        socket.emit('callDataSigner', {
+            code: pendingRequests[data.uID].code,
+            address: pendingRequests[data.uID].address
+        });
+    });
+
+    socket.on('verifySignature', (data) => {
+        const pendingRequest = pendingRequests[data.uID];
+        const retrievedAddy = web3.eth.accounts.recover("This transaction do not cost any gas / Eth. It is only to confirm your ownership of the account.",
+            data.signature);
+        if (pendingRequest.address === retrievedAddy) {
+            io.to(pendingRequest.socketId).emit('setOutput', {
+                outputText: 'Success'
+            });
+        } else {
+            io.to(pendingRequest.socketId).emit('setOutput', {
+                outputText: 'Failure'
+            });
+        }
+    });
 });
