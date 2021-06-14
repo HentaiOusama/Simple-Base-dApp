@@ -16,16 +16,16 @@ interface LinkedDataInfo {
     styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    HeaderMessage = 'Welcome to Blockchain Communicator';
-    web: any
+    web: any;
+    origin: String = window.location.origin;
     socket = io(window.location.origin);
 
     twitterLI: LinkedDataInfo = {
         href: 'https://github.com/HentaiOusama/Simple-Base-dApp/tree/AngularBranch',
         title: 'GitHub',
-        iconPath: 'assets/GitHub.png',
+        iconPath: 'assets/GitHub.svg',
         alt: 'Github Link',
-        width: 40
+        width: 30
     };
 
     constructor(_web3: Web3ComponentsService) {
